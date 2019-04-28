@@ -81,4 +81,4 @@ deploy:
   type: git
   repo: https://github.com/Xiamer/Xiamer.github.io
   branch: master
-  message: [message]
+  # message: [message]co
