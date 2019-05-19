@@ -338,7 +338,7 @@
                 
               
 
-              <time title="创建时间：2019-05-19 12:13:48 / 修改时间：15:57:47" itemprop="dateCreated datePublished" datetime="2019-05-19T12:13:48+08:00">2019-05-19</time>
+              <time title="创建时间：2019-05-19 12:13:48 / 修改时间：16:05:21" itemprop="dateCreated datePublished" datetime="2019-05-19T12:13:48+08:00">2019-05-19</time>
             
 
             
@@ -384,7 +384,7 @@
    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Persion()&#123; this.name = &apos;mingming&apos; &#125;;</span><br><span class="line">Persion.prototype.say = function() &#123;return &apos;say&apos;&#125;;</span><br><span class="line">Persion.prototype.name = &apos;prohonghong&apos;;</span><br><span class="line">let p1 = new Persion();</span><br><span class="line">p1.__proto__ === Persion.prototype; // true</span><br><span class="line">Persion.__proto__ === Function.prototype;  // true</span><br><span class="line">Persion.prototype.__proto__ === Object.prototype; // true</span><br><span class="line">Object.prototype.__proto__; // null</span><br><span class="line">p1.say(); // say</span><br><span class="line">p1.name; // mingming</span><br><span class="line">p1.__proto__.name; // prohonghong</span><br></pre></td></tr></table></figure>
 <h2 id="Function原型对象-prototype-的构造器-constructor-指回原构造函数"><a href="#Function原型对象-prototype-的构造器-constructor-指回原构造函数" class="headerlink" title="Function原型对象(prototype)的构造器(constructor)指回原构造函数"></a>Function原型对象(prototype)的构造器(constructor)指回原构造函数</h2><p> 方法这个特殊的对象，除了和其他对象一样有上述<em>proto</em>属性之外，还有自己特有的属性——原型属性（prototype），这个属性是一个指针，指向一个对象，这个对象的用途就是包含所有实例共享的属性和方法（我们把这个对象叫做原型对象）。原型对象也有一个属性，叫做constructor，这个属性包含了一个指针，指回原构造函数。</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Persion.prototype.constructor === Persion // true</span><br><span class="line">Persion.constructor === Function // true</span><br><span class="line">Function.prototype.constructor === Function // true</span><br></pre></td></tr></table></figure>
-<h2 id="原型链关系图"><a href="#原型链关系图" class="headerlink" title="原型链关系图"></a>原型链关系图</h2><p><img src="https://pic1.zhimg.com/80/e83bca5f1d1e6bf359d1f75727968c11_hd.jpg" alt></p>
+<h2 id="原型链关系图"><a href="#原型链关系图" class="headerlink" title="原型链关系图"></a>原型链关系图</h2><p><img src="/source/images/prototype.jpg" alt></p>
 <ol>
 <li><p>构造函数Foo()</p>
 <p>构造函数的原型属性Foo.prototype指向了原型对象，在原型对象里有共有的方法，所有构造函数声明的实例（这里是f1，f2）都可以共享这个方法。</p>
