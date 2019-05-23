@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简介 CSS网格布局擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系。 学习grid布局之前，请先了解 flex 布局，有一定相似性，但这个更强大一些。 属性display 设置网格布局123.wrapper &amp;#123;  display: grid;&amp;#125; 如上图所示，默认为块级元素，独占一行。123.wrapper &amp;#123;  display: inli">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css 20分钟玩转 grid">
+<meta property="og:url" content="https://xiamer.github.io/2018/04/28/gird/index.html">
+<meta property="og:site_name" content="Xiamer">
+<meta property="og:description" content="简介 CSS网格布局擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系。 学习grid布局之前，请先了解 flex 布局，有一定相似性，但这个更强大一些。 属性display 设置网格布局123.wrapper &amp;#123;  display: grid;&amp;#125; 如上图所示，默认为块级元素，独占一行。123.wrapper &amp;#123;  display: inli">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-885b3b6e160fee71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-5df87aa0ccf1ca1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-4f89f07ad4fe6dcc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-7c7d15a741fe2fbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-0135a11dbeeb924b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-bbd2e1631bb034ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-57ccef27a077380a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-1c34527b6051081b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-24b825a16023eac4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-9ffff07912c337e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-4b25db5a7438e8d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-ce609ebafcebbb6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-d82baa82a027a9e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-b7d6bdb3a93a9198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-abf0ef4df884f055.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-b7230192eec730bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-9d41f461805abd46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-86c2b5a45133869a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-bde3b637ac548cf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/8493649-c96f58d5ea6a86b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-05-10T14:32:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css 20分钟玩转 grid">
+<meta name="twitter:description" content="简介 CSS网格布局擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系。 学习grid布局之前，请先了解 flex 布局，有一定相似性，但这个更强大一些。 属性display 设置网格布局123.wrapper &amp;#123;  display: grid;&amp;#125; 如上图所示，默认为块级元素，独占一行。123.wrapper &amp;#123;  display: inli">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/8493649-885b3b6e160fee71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://xiamer.github.io/2018/04/28/gird/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>css 20分钟玩转 grid | Xiamer</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xiamer</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Xiamer blog</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xiamer.github.io/2018/04/28/gird/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xiamer">
+      <meta itemprop="description" content="Xiamer blog">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xiamer">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">css 20分钟玩转 grid
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-28 15:37:34" itemprop="dateCreated datePublished" datetime="2018-04-28T15:37:34+08:00">2018-04-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-10 22:32:16" itemprop="dateModified" datetime="2019-05-10T22:32:16+08:00">2019-05-10</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p> CSS网格布局擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系。<br><img src="https://upload-images.jianshu.io/upload_images/8493649-885b3b6e160fee71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="网页基本布局"></p>
+<p>学习grid布局之前，请先了解 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex" target="_blank" rel="noopener">flex</a> 布局，有一定相似性，但这个更强大一些。</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><h3 id="display-设置网格布局"><a href="#display-设置网格布局" class="headerlink" title="display 设置网格布局"></a><code>display</code> 设置网格布局</h3><p><img src="https://upload-images.jianshu.io/upload_images/8493649-5df87aa0ccf1ca1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，默认为块级元素，独占一行。<br><img src="https://upload-images.jianshu.io/upload_images/8493649-4f89f07ad4fe6dcc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: inline-grid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，也可设为行内块元素，与其他元素并排。</p>
+<h3 id="grid-template-设置网格区域"><a href="#grid-template-设置网格区域" class="headerlink" title="grid-template 设置网格区域"></a><code>grid-template</code> 设置网格区域</h3><p>设置每一列宽：<code>grid-template-columns: &lt;track-size&gt; ... | &lt;line-name&gt; &lt;track-size&gt; ...;</code><br>设置每一行高：<code>grid-template-rows: &lt;track-size&gt; ... | &lt;line-name&gt; &lt;track-size&gt; ...;</code><br>设置网格布局允许指定区域：<code>grid-template-areas:  &quot;&lt;grid-area-name&gt; | . | none | ...&quot;
+    &quot;...&quot;;</code><br> <strong><track-size></track-size></strong> - can be a length, a percentage, or a fraction of the free space in the grid (using the <code>[fr](https://css-tricks.com/snippets/css/complete-guide-grid/#fr-unit)</code> unit)<br><strong><line-name></line-name></strong> - an arbitrary name of your choosing<br><strong><grid-area-name></grid-area-name></strong> - the name of a grid area specified with `[grid-area]</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-7c7d15a741fe2fbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: 50px 50px 50px;</span><br><span class="line">  grid-template-rows: 50px 50px 50px;</span><br><span class="line">  /* grid-template-columns: 33.33% 33.33% 33.33%;</span><br><span class="line">  grid-template-rows: 33.33% 33.33% 33.33%; */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，设置每一列为50px，每一行为50px，也可设为33.33%，等价的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也可使用<code>repeat</code>属性值，第一个为参数为重复的次数，第二个参数为重复的值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  /* grid-template-columns: 1fr 1fr 1fr;</span><br><span class="line">  grid-template-rows: 1fr 1fr 1fr; */</span><br><span class="line">  grid-template-columns: repeat(3, 1fr);</span><br><span class="line">  grid-template-rows: repeat(3, 1fr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也可使用<code>fr</code>属性值(fraction,每一分块区域)，如果两列的宽度分别为<code>1fr</code>和<code>3fr</code>，就表示后者是前者的三倍。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-0135a11dbeeb924b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: 50px 2fr 1fr;</span><br><span class="line">  grid-template-rows: repeat(3, 1fr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，我们经常会结合<code>px</code>和<code>fr</code>一起用，第一列<code>50px</code>,剩下两列分三份分<code>100px</code>，第二列站<code>2份</code>，第三列站<code>1份</code>，因此上面列宽依次为<code>50px 66.66px 33.33px</code>。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-bbd2e1631bb034ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: 50px minmax(40px, 100px) 20px;</span><br><span class="line">  grid-template-rows: repeat(3, 1fr);</span><br><span class="line">  /* grid-template-columns: 50px minmax(40px, 100px) minmax(20px, 40px);</span><br><span class="line">  grid-template-rows: repeat(3, 1fr); */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，可设置<code>minmax</code>属性值来设置大小，中间这一列最小值为40px，最大值为100px，因此上面列宽依次为<code>50px 80px 20px</code>。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-57ccef27a077380a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">   display: grid;</span><br><span class="line">   grid-template-columns: 50px minmax(40px, 100px) minmax(20px, 40px);     </span><br><span class="line">   grid-template-rows: repeat(3, 1fr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，列宽依次是50px 60px 40px,是怎样计算呢？<br><a href="https://bitsofco.de/how-the-minmax-function-works/" target="_blank" rel="noopener">how-the-minmax-function-works</a><br><img src="https://upload-images.jianshu.io/upload_images/8493649-1c34527b6051081b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">   display: grid;</span><br><span class="line">   grid-template-columns: 20px auto auto;</span><br><span class="line">   grid-template-rows: repeat(3, 1fr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，可设置<code>auto</code>属性值，让浏览器绝对长度，因此上面列宽依次为<code>20px 65px 65px</code>。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-24b825a16023eac4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.grid-template-areas &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: 50px 50px 50px 50px;</span><br><span class="line">  grid-template-rows: auto;</span><br><span class="line">  grid-template-areas:</span><br><span class="line">    &apos;header header header header&apos;</span><br><span class="line">    &apos;main main . sidebar&apos;</span><br><span class="line">    &apos;footer footer footer footer&apos;;</span><br><span class="line">&#125;</span><br><span class="line">.item-1 &#123;</span><br><span class="line">  grid-area: header;</span><br><span class="line">&#125;</span><br><span class="line">.item-2 &#123;</span><br><span class="line">  grid-area: main;</span><br><span class="line">&#125;</span><br><span class="line">.item-3 &#123;</span><br><span class="line">  grid-area: sidebar;</span><br><span class="line">&#125;</span><br><span class="line">.item-4 &#123;</span><br><span class="line">  grid-area: footer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，<code>grid-template-areas</code>设置<code>4x3</code>网格， <code>grid-area</code>对应所选区域，<code>.</code>代表不填充，留空白。</p>
+<h3 id="grid-gap设置行与行间距、列与列间距"><a href="#grid-gap设置行与行间距、列与列间距" class="headerlink" title="grid-gap设置行与行间距、列与列间距"></a><code>grid-gap</code>设置行与行间距、列与列间距</h3><p><code>grid-gap: &lt;grid-row-gap&gt; &lt;grid-column-gap&gt;;</code><br><img src="https://upload-images.jianshu.io/upload_images/8493649-9ffff07912c337e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: 100px 50px 100px;</span><br><span class="line">  grid-template-rows: 80px auto 80px;</span><br><span class="line">  grid-gap: 15px 10px;</span><br><span class="line">  /* grid-row-gap: 15px;</span><br><span class="line">  grid-column-gap: 10px; */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，设置行间距为<code>15px</code>，列间距为<code>10px</code></p>
+<ol start="4">
+<li><code>grid-auto-flow</code> 设置排列方式，默认“先行后列”<br><code>grid-auto-flow: row | column | row dense | column dense</code></li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-4b25db5a7438e8d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 1fr);</span><br><span class="line">  grid-template-rows: repeat(3, 1fr);</span><br><span class="line">&#125;</span><br><span class="line">.item-1 &#123;</span><br><span class="line">  /* 代表所占列的网格线为1～3，grid-row 不写默认为所占行的网格线为1～2 */</span><br><span class="line">  grid-column: 1 / 3; </span><br><span class="line">&#125;</span><br><span class="line">.item-2 &#123;</span><br><span class="line">  grid-column: 1 / 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，为默认排列，先行后列，放不下就放到下一行。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-ce609ebafcebbb6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 1fr);</span><br><span class="line">  grid-template-rows: repeat(3, 1fr);</span><br><span class="line">  grid-auto-flow: row dense;</span><br><span class="line">&#125;</span><br><span class="line">.item-1 &#123;</span><br><span class="line">  /* 代表所占列的网格线1～3，grid-row 不写默认为所占行的网格线1～2 */</span><br><span class="line">  grid-column: 1 / 3;</span><br><span class="line">&#125;</span><br><span class="line">.item-2 &#123;</span><br><span class="line">  grid-column: 1 / 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上图所排为默认排列，先行后列，并且紧凑，尽量不留空隙。</p>
+<h3 id="place-items-设置网格内容的位置"><a href="#place-items-设置网格内容的位置" class="headerlink" title="place-items 设置网格内容的位置"></a><code>place-items</code> 设置网格内容的位置</h3><p><code>place-items: &lt;align-items&gt; &lt;justify-items&gt;;</code> <strong>先竖直后水平</strong><br>水平位置：<code>justify-items: start | end | center | stretch;</code><br>竖直位置：<code>align-items: start | end | center | stretch;</code></p>
+<ul>
+<li>start：对齐网格的起始边缘</li>
+<li>end：对齐网格的结束边缘</li>
+<li>center：网格内部居中</li>
+<li>stretch：拉伸，占满网格的整个宽度（默认值）。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-d82baa82a027a9e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">  place-items: start end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，竖直位置内容从上到下排列，水平位置内容从左到右排列。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-b7d6bdb3a93a9198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">  place-items: start stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，竖直位置内容从上到下排列，水平位置拉伸占满网格的整个宽度。</p>
+<h3 id="place-content设置整个内容区域在容器里面的位置"><a href="#place-content设置整个内容区域在容器里面的位置" class="headerlink" title="place-content设置整个内容区域在容器里面的位置"></a><code>place-content</code>设置整个内容区域在容器里面的位置</h3><p><code>place-content: &lt;align-content&gt; &lt;justify-content&gt;</code><br> 水平位置：<code>justify-content: start | end | center | stretch | space-around | space-between | space-evenly;</code><br>垂直位置： <code>align-content:start | end | center | stretch | space-around | space-between | space-evenly;</code></p>
+<ul>
+<li>start: 将网格对齐以与容器的起始边缘齐平</li>
+<li>end: 将网格对齐以与容器的末端边缘齐平</li>
+<li>stretch: 调整网格的大小填充容器的整个宽度(默认值)</li>
+<li>space-around: 每个网格两侧的间隔相等，两端到容器的间隔是网格的一半</li>
+<li>space-between: 网格与网格的间隔相等，网格与容器边框之间没有间隔</li>
+<li>space-evenly: 每个网格之间间距相同，包括到两端距离</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-abf0ef4df884f055.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  box-shadow: 0px 0px 2px 1px #cccccc;</span><br><span class="line">  width: 250px;</span><br><span class="line">  height: 250px;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">  place-content: end end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，整个内容区在容器的水平方向末端，竖直方向末端。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-b7230192eec730bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  box-shadow: 0px 0px 2px 1px #cccccc;</span><br><span class="line">  width: 250px;</span><br><span class="line">  height: 250px;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">  place-content: space-evenly space-evenly;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示， 每个网格之间间距相同，包括到两端距离。</p>
+<h3 id="grid-auto-rows-grid-auto-column设置超出定义网格的网格大小"><a href="#grid-auto-rows-grid-auto-column设置超出定义网格的网格大小" class="headerlink" title="grid-auto-rows grid-auto-column设置超出定义网格的网格大小"></a><code>grid-auto-rows grid-auto-column</code>设置超出定义网格的网格大小</h3><p><img src="https://upload-images.jianshu.io/upload_images/8493649-9d41f461805abd46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  box-shadow: 0px 0px 2px 1px #cccccc;</span><br><span class="line">  width: 250px;</span><br><span class="line">  height: 250px;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 50px);</span><br><span class="line">  grid-auto-rows: 80px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，定义一个3x3网格，第10个网格超出区域，超出行的高度为80px。</p>
+<h3 id="grid-row-grid-column设置网格自身起始、终止线"><a href="#grid-row-grid-column设置网格自身起始、终止线" class="headerlink" title="grid-row grid-column设置网格自身起始、终止线"></a><code>grid-row grid-column</code>设置网格自身起始、终止线</h3><p><code>grid-column: grid-column-start / grid-column-end</code><br><code>grid-row: grid-row-start / grid-row-end</code><br><code>grid-column: &lt;start-line&gt; / &lt;end-line&gt; | &lt;start-line&gt; / span &lt;value&gt;</code><br> <code>grid-row: &lt;start-line&gt; / &lt;end-line&gt; | &lt;start-line&gt; / span &lt;value&gt;</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/8493649-86c2b5a45133869a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  box-shadow: 0px 0px 2px 1px #cccccc;</span><br><span class="line">  width: 250px;</span><br><span class="line">  height: 250px;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(4, 50px);</span><br><span class="line">&#125;</span><br><span class="line">.item-1 &#123;</span><br><span class="line">  /* 简写 */</span><br><span class="line">  grid-row: 2 / 4;</span><br><span class="line">  grid-column: 2 / 4;</span><br><span class="line">  /* 拆开写相同*/</span><br><span class="line">  /* grid-row-start: 2;</span><br><span class="line">  grid-row-end: 4;</span><br><span class="line">  grid-column-start: 2;</span><br><span class="line">  grid-column-end: 4; */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上图所示，定义一个3x3网格，第一个网格水平方向起始线为2，终止线为4，竖直方向起始线为2，终止线为4，剩下的网格会按默认依次排列。</p>
+<h3 id="place-self-设置单元网格内容位置。"><a href="#place-self-设置单元网格内容位置。" class="headerlink" title="place-self 设置单元网格内容位置。"></a><code>place-self</code> 设置单元网格内容位置。</h3><p><code>place-self: &lt;align-self&gt; &lt;justify-self&gt;;</code><br><code>justify-self: start | end | center | stretch;</code><br><code>align-self: start | end | center | stretch;</code><br><img src="https://upload-images.jianshu.io/upload_images/8493649-bde3b637ac548cf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.wrapper &#123;</span><br><span class="line">  display: grid;</span><br><span class="line">  grid-template-columns: repeat(3, 50px);</span><br><span class="line">  grid-template-rows: repeat(3, 30px);</span><br><span class="line">&#125;</span><br><span class="line">.item-1 &#123;</span><br><span class="line">  place-self: center center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上图所示，<code>item-1</code>在第一个网格上下左右中间位置。</p>
+<h2 id="示例相关代码"><a href="#示例相关代码" class="headerlink" title="示例相关代码"></a>示例相关代码</h2><p><a href="https://github.com/Xiamer/css-example/tree/master/grid" target="_blank" rel="noopener">https://github.com/Xiamer/css-example/tree/master/grid</a></p>
+<h2 id="grid-兼容性"><a href="#grid-兼容性" class="headerlink" title="grid 兼容性"></a>grid 兼容性</h2><p><img src="https://upload-images.jianshu.io/upload_images/8493649-c96f58d5ea6a86b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt><br><a href="https://caniuse.com/#search=css%20grid" target="_blank" rel="noopener">https://caniuse.com/#search=css%20grid</a></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout</a></li>
+<li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/#prop-grid-template-areas" target="_blank" rel="noopener">https://css-tricks.com/snippets/css/complete-guide-grid/#prop-grid-template-areas</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/09/Event-deep/" rel="prev" title="JS Event deep">
+                JS Event deep <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Xiamer</p>
+              <div class="site-description motion-element" itemprop="description">Xiamer blog</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/xiamer" title="GitHub &rarr; https://github.com/xiamer" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:xiamer.chou@gmail.com" title="E-Mail &rarr; mailto:xiamer.chou@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">2.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#display-设置网格布局"><span class="nav-number">2.1.</span> <span class="nav-text">display 设置网格布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grid-template-设置网格区域"><span class="nav-number">2.2.</span> <span class="nav-text">grid-template 设置网格区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grid-gap设置行与行间距、列与列间距"><span class="nav-number">2.3.</span> <span class="nav-text">grid-gap设置行与行间距、列与列间距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#place-items-设置网格内容的位置"><span class="nav-number">2.4.</span> <span class="nav-text">place-items 设置网格内容的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#place-content设置整个内容区域在容器里面的位置"><span class="nav-number">2.5.</span> <span class="nav-text">place-content设置整个内容区域在容器里面的位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grid-auto-rows-grid-auto-column设置超出定义网格的网格大小"><span class="nav-number">2.6.</span> <span class="nav-text">grid-auto-rows grid-auto-column设置超出定义网格的网格大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grid-row-grid-column设置网格自身起始、终止线"><span class="nav-number">2.7.</span> <span class="nav-text">grid-row grid-column设置网格自身起始、终止线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#place-self-设置单元网格内容位置。"><span class="nav-number">2.8.</span> <span class="nav-text">place-self 设置单元网格内容位置。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例相关代码"><span class="nav-number">3.</span> <span class="nav-text">示例相关代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grid-兼容性"><span class="nav-number">4.</span> <span class="nav-text">grid 兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xiamer</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
