@@ -1,26 +1,29 @@
 ---
 title: css 20分钟玩转 grid
 date: 2018-04-28 15:37:34
+categories: 
+- web前端
 tags:
+- css
 ---
 ## 简介
 
  CSS网格布局擅长于将一个页面划分为几个主要区域，以及定义这些区域的大小、位置、层次等关系。
-![网页基本布局](https://upload-images.jianshu.io/upload_images/8493649-885b3b6e160fee71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![网页基本布局](/images/grid/grid_1.webp)
 
 学习grid布局之前，请先了解 [flex](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex) 布局，有一定相似性，但这个更强大一些。
 
 
 ## 属性
 ### `display` 设置网格布局
-![](https://upload-images.jianshu.io/upload_images/8493649-5df87aa0ccf1ca1d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_2.webp)
 ```
 .wrapper {
   display: grid;
 }
 ```
 如上图所示，默认为块级元素，独占一行。
-![](https://upload-images.jianshu.io/upload_images/8493649-4f89f07ad4fe6dcc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_3.webp)
 ```
 .wrapper {
   display: inline-grid;
@@ -37,7 +40,7 @@ tags:
 **<line-name>** - an arbitrary name of your choosing
 **<grid-area-name>** - the name of a grid area specified with `[grid-area]
 
-![](https://upload-images.jianshu.io/upload_images/8493649-7c7d15a741fe2fbf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_4.webp)
 ```
 .wrapper {
   display: grid;
@@ -67,7 +70,7 @@ tags:
 ```
 也可使用`fr`属性值(fraction,每一分块区域)，如果两列的宽度分别为`1fr`和`3fr`，就表示后者是前者的三倍。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-0135a11dbeeb924b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_5.webp)
 ```
 .wrapper {
   display: grid;
@@ -77,7 +80,7 @@ tags:
 ```
 如上图所示，我们经常会结合`px`和`fr`一起用，第一列`50px`,剩下两列分三份分`100px`，第二列站`2份`，第三列站`1份`，因此上面列宽依次为`50px 66.66px 33.33px`。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-bbd2e1631bb034ff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_6.webp)
 
 ```
 .wrapper {
@@ -90,7 +93,7 @@ tags:
 ```
 如上图所示，可设置`minmax `属性值来设置大小，中间这一列最小值为40px，最大值为100px，因此上面列宽依次为`50px 80px 20px`。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-57ccef27a077380a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_7.webp)
 
 ```
 .wrapper {
@@ -101,7 +104,7 @@ tags:
 ```
 如上图所示，列宽依次是50px 60px 40px,是怎样计算呢？
 [how-the-minmax-function-works](https://bitsofco.de/how-the-minmax-function-works/)
-![](https://upload-images.jianshu.io/upload_images/8493649-1c34527b6051081b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_8.webp)
 ```
 .wrapper {
    display: grid;
@@ -111,7 +114,7 @@ tags:
 ```
 如上图所示，可设置`auto`属性值，让浏览器绝对长度，因此上面列宽依次为`20px 65px 65px`。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-24b825a16023eac4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_9.webp)
 
 
 ```
@@ -141,7 +144,7 @@ tags:
 
 ### `grid-gap`设置行与行间距、列与列间距
 ` grid-gap: <grid-row-gap> <grid-column-gap>;`
-![](https://upload-images.jianshu.io/upload_images/8493649-9ffff07912c337e3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_10.webp)
 
 ```
 .container {
@@ -155,10 +158,10 @@ tags:
 ```
 如上图所示，设置行间距为`15px`，列间距为`10px`
 
-4. `grid-auto-flow` 设置排列方式，默认“先行后列”
+1. `grid-auto-flow` 设置排列方式，默认“先行后列”
 ` grid-auto-flow: row | column | row dense | column dense`
 
-![](https://upload-images.jianshu.io/upload_images/8493649-4b25db5a7438e8d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_11.webp)
 
 ```
 .wrapper {
@@ -177,7 +180,7 @@ tags:
 如上图所示，为默认排列，先行后列，放不下就放到下一行。
 
 
-![](https://upload-images.jianshu.io/upload_images/8493649-ce609ebafcebbb6d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_12.webp)
 
 ```
 .wrapper {
@@ -207,7 +210,7 @@ tags:
 * center：网格内部居中
 * stretch：拉伸，占满网格的整个宽度（默认值）。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-d82baa82a027a9e6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_13.webp)
 
 
 ```
@@ -220,7 +223,7 @@ tags:
 ```
 如上图所示，竖直位置内容从上到下排列，水平位置内容从左到右排列。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-b7d6bdb3a93a9198.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_14.webp)
 
 ```
 .wrapper {
@@ -243,7 +246,7 @@ tags:
 * space-between: 网格与网格的间隔相等，网格与容器边框之间没有间隔
 * space-evenly: 每个网格之间间距相同，包括到两端距离
 
-![](https://upload-images.jianshu.io/upload_images/8493649-abf0ef4df884f055.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_15.webp)
 ```
 .wrapper {
   box-shadow: 0px 0px 2px 1px #cccccc;
@@ -257,7 +260,7 @@ tags:
 ```
 如上图所示，整个内容区在容器的水平方向末端，竖直方向末端。
 
-![](https://upload-images.jianshu.io/upload_images/8493649-b7230192eec730bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_16.webp)
 ```
 .wrapper {
   box-shadow: 0px 0px 2px 1px #cccccc;
@@ -273,7 +276,7 @@ tags:
 
 ### `grid-auto-rows grid-auto-column`设置超出定义网格的网格大小
 
-![](https://upload-images.jianshu.io/upload_images/8493649-9d41f461805abd46.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_17.webp)
 
 ```
 .wrapper {
@@ -295,7 +298,7 @@ tags:
 `grid-column: <start-line> / <end-line> | <start-line> / span <value>`
  `grid-row: <start-line> / <end-line> | <start-line> / span <value>`
 
-![](https://upload-images.jianshu.io/upload_images/8493649-86c2b5a45133869a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_18.webp)
 
 ```
 .wrapper {
@@ -324,7 +327,7 @@ tags:
 `place-self: <align-self> <justify-self>;`
 `justify-self: start | end | center | stretch;`
 `align-self: start | end | center | stretch;`
-![](https://upload-images.jianshu.io/upload_images/8493649-bde3b637ac548cf9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_19.webp)
 ```
 .wrapper {
   display: grid;
@@ -342,7 +345,7 @@ tags:
 [https://github.com/Xiamer/css-example/tree/master/grid](https://github.com/Xiamer/css-example/tree/master/grid)
 
 ## grid 兼容性
-![](https://upload-images.jianshu.io/upload_images/8493649-c96f58d5ea6a86b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](/images/grid/grid_20.webp)
 [https://caniuse.com/#search=css%20grid](https://caniuse.com/#search=css%20grid)
 
 

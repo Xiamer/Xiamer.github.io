@@ -1,7 +1,11 @@
 ---
 title: js中__proto__和prototype的关系
 date: 2019-05-19 12:13:48
+categories: 
+- web前端
 tags:
+- js
+
 ---
 
 本文内容主要来自[js中__proto__和prototype的区别和关系？](https://www.zhihu.com/question/34183746)作者[doris](https://www.zhihu.com/people/doris-53-22/activities)的回答，主要用于以后知识点回顾。

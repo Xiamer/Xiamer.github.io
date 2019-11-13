@@ -13,7 +13,8 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://xiamer.github.io/
+# url: https://xiamer.github.io/
+url: http://blog.xiamer.top/
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -78,7 +79,19 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo: https://github.com/Xiamer/Xiamer.github.io
+# - type: git
+#   repo: https://github.com/Xiamer/Xiamer.github.io
+  # branch: master
+  # message: [message]
+- type: git
+  repo:  root@xg:/www/blog
   branch: master
-  # message: [message]co
+  
+# https://segmentfault.com/a/1190000015698357
+# https://segmentfault.com/a/1190000005723321
+
+# browsersync:
+#   logLevel: "warn"
+#   ghostMode:
+#     scroll: true
+#   instanceName: "uniqueString"
