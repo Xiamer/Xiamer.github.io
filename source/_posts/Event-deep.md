@@ -42,7 +42,7 @@ JavaScript语言的设计者意识到，这时主线程完全可以不管IO设�
 
 于是，所有任务可以分成两种，一种是**同步任务**（synchronous），另一种是**异步任务**（asynchronous）。同步任务指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步任务指的是，不进入主线程、而进入"任务队列"（task queue）的任务，只有"任务队列"通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行。
 
-![](images/event-deep/1.webp)
+![](/images/event-deep/1.webp)
 
 具体来说，异步执行的运行机制如下。（同步执行也是如此，因为它可以被视为没有异步任务的异步执行。）
 
@@ -65,7 +65,7 @@ JavaScript语言的设计者意识到，这时主线程完全可以不管IO设�
 > 主线程（宏任务） => 微任务 => 宏任务 => 主线程
 
 
-![](images/event-deep/2.webp)
+![](/images/event-deep/2.webp)
 
 **主要部分**：  开始-> 取task queue(macro task)第一个task执行(script) -> 取micro task全部任务依次执行 -> 取task queue下一个任务执行 -> 再次取出micro task全部任务执行 -> … 另外在处理microtask期间，如果有新添加的microtasks，也会被添加到队列的末尾并执行。js引擎存在**monitoring process进程**， 会不停的监听`task queue`
 
@@ -146,24 +146,19 @@ console.log('script end')
 * 输出 ‘Promise1’。将then里面的函数放在当前队列的最后。
 * 然后输出‘script end’,注意这时只是同步任务执行完了，当前任务队列的任务还没有执行完毕，还有两个微任务被添加进来了!队列是先进先出的结构，所以这里先输出 ‘async1 end’ 再输出 ‘Promise2’,这时第一轮任务队列才真算执行完了。
 * 然后执行下一个任务列表的任务。执行setTimeout里面的异步函数。输出‘setTimeout’。
-
-作者：sliiva
-链接：https://juejin.im/post/5c8a024d51882546be0a3082
-来源：掘金
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
   
 ## Event Loop
 
 主线程从"任务队列"中读取事件，这个过程是循环不断的，所以整个的这种运行机制又称为Event Loop（事件循环）。
 
-![](images/event-deep/3.webp)
+![](/images/event-deep/3.webp)
 
 
 ## NodeJs 的 Event Loop
 
 Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器环境。
 
-![](images/event-deep/4.png)
+![](/images/event-deep/4.png)
 
 1. V8引擎解析JavaScript脚本。
 2. 解析后的代码，调用Node API。
