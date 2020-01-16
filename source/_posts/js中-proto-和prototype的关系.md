@@ -56,6 +56,36 @@ tags:
   另外：构造函数Foo()除了是方法，也是对象啊，它也有__proto__属性，指向它的构造函数的原型对象。
   函数的构造函数是Function，因此这里的__proto__指向了Function.prototype。其实除了Foo()，Function(), Object()也是一样的道理。
   原型对象也是对象啊，它的__proto__属性，又指向谁呢？同理，指向它的构造函数的原型对象呗。这里是Object.prototype.最后，Object.prototype的__proto__属性指向null。
+  
+## 总结：
+1.对象有属性__proto__,指向该对象的构造函数的原型对象。
+2.方法除了有属性__proto__,还有属性prototype，prototype指向该方法的原型对象。
+
+```js
+function A (a) {this.a = a}
+let c = new A(1);
+
+c.constructor ===  A;
+c.__proto__ === A.prototype;
+
+A.__proto__ === Function.prototype;
+A.constructor === Function;
+A.prototype.constructor === A;
+A.prototype.__proto__ === Object.prototype;
+
+// Function Object 都是构造器 指向了构造函数Function ！！！
+Function.constructor === Function;
+Object.constructor === Function;
+
+Function.__proto__ === Function.prototype;
+Function.prototype.constructor === Function;
+Function.prototype.__proto__ === Object.prototype;
+
+Object.__proto__ === Function.prototype;
+Object.prototype.constructor === Object;
+Object.prototype.__proto__ === null; // 空指针
+
+```
 
 ## 参考链接
 * [https://www.zhihu.com/question/34183746](https://www.zhihu.com/question/34183746)
