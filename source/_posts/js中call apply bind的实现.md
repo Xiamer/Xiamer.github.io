@@ -211,3 +211,117 @@ console.log(bar.apply(obj, ['kevin', 18]));     // {value: 1,name: 'kevin', 18}
 console.log(bar.myApply(obj, ['kevin', 18]));   // {value: 1,name: 'kevin', 18}
 console.log(bar.myApply2(obj, ['kevin', 18]));    // {value: 1,name: 'kevin', 18}
 ```
+
+
+## bind的实现
+
+### 概念 
+bind() 方法会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。
+
+### 语法
+
+```js
+function.bind(thisArg[, arg1[, arg2[, ...]]])
+```
+
+* thisArg 调用绑定函数时作为 this 参数传递给目标函数的值。 **如果使用new运算符构造绑定函数，则忽略该值。**当使用 bind 在 setTimeout 中创建一个函数（作为回调提供）时，作为 thisArg 传递的任何原始值都将转换为 object。如果 bind 函数的参数列表为空，执行作用域的 this 将被视为新函数的 thisArg。
+
+* arg1, arg2, ...
+当目标函数被调用时，被预置入绑定函数的参数列表中的参数。
+
+### 用法与实现
+
+#### bind传参数->执行时再传参
+##### 常见用法
+```js
+var foo = {
+    value: 1
+};
+
+function bar(name, age) {
+  console.log(this.value); // 1
+  console.log(name);       // daisy
+  console.log(age);        // 18
+
+}
+var bindFoo = bar.bind(foo, 'daisy');
+bindFoo('18');
+```
+
+##### 模拟实现
+```js
+Function.prototype.mybind = function (context) {
+  const self = this;
+  // 获取bind时传入参数
+  const args = Array.prototype.slice.call(arguments, 1);
+  return function() {
+    // 获取执行时传入参数
+    const contentArgs =  Array.prototype.slice.call(arguments);
+    return self.apply(context, args.concat(contentArgs));
+  }
+}
+```
+
+#### bind传参 -> new bind返回函数
+
+##### 常见用法
+```js
+var value = 2;
+
+var foo = {
+    value: 1
+};
+
+function bar(name, age) {
+    this.habit = 'shopping';
+    console.log(this.value);
+    console.log(name);
+    console.log(age);
+}
+
+bar.prototype.friend = 'kevin';
+
+var bindFoo = bar.bind(foo, 'daisy');
+
+var obj = new bindFoo('18');
+// undefined 当作为new 时，函数中的this指向实例化后的对象
+// daisy
+// 18
+console.log(obj.habit);
+console.log(obj.friend);
+// shopping
+// kevin
+```
+
+##### 模拟实现
+
+```js
+Function.prototype.mybind2 = function (context) {
+  if (typeof this !== "function") {
+    throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
+  }
+  const self = this;
+  const args = Array.prototype.slice.call(arguments, 1);
+  let fNop = function () {};
+  
+  const fBound = function() {
+    cons contentArgs =  Array.prototype.slice.call(arguments);
+    // this instanceof fNop 为true时，代表new fn()；为false时，代表直接执行fn()，此时this是window应指向context
+    return self.apply(this instanceof fNop ? this: context, args.concat(contentArgs));
+  };
+  // 维护原型关系
+  // 若改了fBound(即：bind())的prototype 会影响原始函数的prototype，所以我们应该找个中介替代
+  // fBound.prototype = this.prototype;
+  // bind 方法所返回的函数并不包含 prototype 属性，并且将这些绑定的函数用作构造函数所创建的对象从原始的未绑定的构造函数中继承prototype 这就意味着如果你打印构造函数所创建的对象的 constructor 属性，应该指向未绑定的构造函数
+  fNop.prototype = this.prototype;
+  fBound.prototype = new fNop();
+  return fBound;
+}
+```
+
+### 参考链接
+* [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+* [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
+* [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+* [JavaScript深入之bind的模拟实现](https://github.com/mqyqingfeng/Blog/issues/12)
+* [JavaScript深入之call和apply的模拟实现](https://github.com/mqyqingfeng/Blog/issues/11)
