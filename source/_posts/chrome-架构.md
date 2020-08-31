@@ -1,0 +1,68 @@
+---
+title: chrome 架构
+date: 2020-08-31 15:11:10
+categories: 
+- web前端
+tags:
+- chrome 浏览器
+---
+
+## chrome 进程 && 线程图
+
+![chrome browser design](/images/chrome/chrome-browser.jpeg)
+
+## 浏览器内核中线程之间的关系
+
+### GUI渲染线程与JS引擎线程互斥
+
+由于JavaScript是可操纵DOM的，如果在修改这些元素属性同时渲染界面（即JS线程和UI线程同时运行），那么渲染线程前后获得的元素数据会可能不一致。
+因此为了防止渲染出现不可预期的结果，浏览器设置GUI渲染线程与JS引擎为互斥的关系，当JS引擎执行时GUI线程会被挂起，
+GUI更新则会被保存在一个队列中等到JS引擎线程空闲时立即被执行。
+
+### JS阻塞页面加载
+
+从上述的互斥关系，可以推导出，JS如果执行时间过长就会阻塞页面。
+譬如，假设JS引擎正在进行巨量的计算，此时就算GUI有更新，也会被保存到队列中，等待JS引擎空闲后执行。
+然后，由于巨量计算，所以JS引擎很可能很久很久后才能空闲，自然会感觉到巨卡无比。
+所以，要尽量避免JS执行时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉。
+
+## 当前多进程的缺点
+
+引入多进程模式固然提升了浏览器的稳定性，流畅性和安全型，当也不可避免地带来了一些问题：
+
+* **更高的资源占用。**因为每个进程都会包含公共基础结构的副本（如 JavaScript 运行环境），这就意味着浏览器会消耗更多的内存资源。
+* **更复杂的体系架构。**浏览器各模块之间耦合性高、扩展性差等问题，会导致现在的架构已经很难适应新的需求了。
+
+## 多进程浏览器时代
+
+### 早期多进程架构
+
+2008年Chrome发布时的进程框架:
+
+![chrome browser design](/images/chrome/chrome-design-old.jpg)
+
+由于进程是相互隔离的，所以当一个页面或者插件崩溃时影响的仅仅时页面进程或者插件进程并不影响浏览器和其他页面，这就解决了不稳地的问题；同时JavaScript也运行在渲染进程中，所以JS阻塞渲染进程的话也仅影响当前渲染页面，内存泄漏的问题也可以 通过关闭一个页面进而使整个渲染进程关闭实现该进程所占内存被回收得以解决内存泄漏问题；而由于多进程架构使用的**安全沙箱**， 浏览器把插件进程和渲染进程锁在沙箱中运行，所以也能很好的解决安全性问题。
+
+### 目前多进程架构
+
+最新的Chrome进程架构：
+
+![chrome browser design](/images/chrome/chrome-design-current.jpg)
+
+### 未来面向服务的架构
+
+为了解决这些问题，在 2016 年，Chrome 官方团队使用“**面向服务的架构**”（Services Oriented Architecture，简称 SOA） 的思想设计了新的 Chrome 架构。
+也就是说 Chrome 整体架构会朝向现代操作系统所采用的“面向服务的架构” 方向发展，原来的各种模块会被重构成独立的服务（Service）， 每个服务（Service）都可以在独立的进程中运行，访问服务（Service）必须使用定义好的接口，通过 IPC 来通信， 从而构建一个**更内聚、松耦合、易于维护和扩展的系统**，更好实现 Chrome 简单、稳定、高速、安全的目标。
+Chrome最终要把UI、数据库、文件、设备、网络等模块重构为基础服务，类似操作系统底层服务。
+
+![chrome browser design](/images/chrome/feature.jpg)
+
+Chrome 正在逐步构建 Chrome 基础服务（Chrome Foundation Service），如果你认为 Chrome 是“便携式操作系统”， 那么 Chrome 基础服务便可以被视为该操作系统的“基础”系统服务层。
+同时 Chrome 还提供灵活的弹性架构，在强大性能设备上会以多进程的方式运行基础服务，但是如果在资源受限的设备上（如下图）， Chrome 会将很多服务整合到一个进程中，从而节省内存占用。
+
+![chrome browser design](/images/chrome/combine.jpg)
+
+## 参考链接
+* [从浏览器多进程到js单线程，js运行机制最全面的梳理](https://juejin.im/post/6844903553795014663)
+* [chrome架构](https://pcaaron.github.io/pages/fe/chrome/view.html#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3)
+* [chrouim developers](https://www.chromium.org/developers)
