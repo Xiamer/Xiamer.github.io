@@ -62,6 +62,10 @@ Chrome 正在逐步构建 Chrome 基础服务（Chrome Foundation Service），�
 
 ![chrome browser design](/images/chrome/combine.jpg)
 
+## 总结
+
+通过打开一个页面启动至少四个进程作为问题切入点，我们从并行处理，到线程和进程的概念的深入，了解到浏览器从单进程浏览器 时代的浏览器的所有功能模块运行在一个进程中带来的不稳定、不流畅和不安全问题；逐步过渡到了基于**多进程架构**的浏览器架构， 实现将浏览器分为**浏览器主进程、GPU进程、渲染进程、网络进程和插件进程**等多个进程通过**IPC(进程间通信)**协调合作实现 页面的展示；到最后面向**服务的架构**的展望。了解到了浏览器的架构的演变。
+
 ## 参考链接
 * [从浏览器多进程到js单线程，js运行机制最全面的梳理](https://juejin.im/post/6844903553795014663)
 * [chrome架构](https://pcaaron.github.io/pages/fe/chrome/view.html#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E6%97%B6%E4%BB%A3)
