@@ -188,9 +188,6 @@ babel 对一些新的 API 是无法转换，比如 Generator、Set、Proxy、Pro
 
 **V7.4.0** 版本开始`@babel/polyfill`已经被废弃, 需单独安装 `core-js` 和 `regenerator-runtime` 模块。
 
-### demo地址
-  * [@babel/polyfill demo](https://github.com/Xiamer/babel-example/blob/main/rollup.config.polyfill.js)
-
 
 
 ## @babel/preset-env
@@ -313,7 +310,6 @@ exports.oPoint = oPoint;
 exports.oProm = oProm;
 ```
 
-demo地址 [@babel/preset demo](https://github.com/Xiamer/babel-example/blob/main/rollup.config.preset.env.js)
 我们通过配置 `useBuiltIns: 'usage'` 实现了 `按需加载` polyfill。但编译后的代码中，`_classCallCheck` 就是一个辅助功能实现的工具函数。如果多个文件中都用到了`class`，每一个文件编译后都生成一个工具函数，最后就会产生大量重复代码，增加文件体积，并且引入新特性被暴露在全局或直接修改了原型的方法，而 `plugin-transform-runtime` 就是为了解决这个问题。
 
 
@@ -445,6 +441,9 @@ exports.oProm = oProm;
 
 可以看出，帮助函数现在不是直接被 `inject` 到代码中，而是从 `@babel/runtime-corejs` 中引入。 其他特性没有直接去修改 `Array.prototype`，或者是新增 `Promise` 方法，避免了全局污染。
 
+## demo 地址
+
+[babel-example](https://github.com/Xiamer/babel-example/)
 
 ## 参考
 
