@@ -317,6 +317,7 @@ TCP还设有一个保活计时器，显然，客户端如果出现故障，服�
 
 ## 参考链接
 
+* [TCP 重传、滑动窗口、流量控制、拥塞控制](https://www.cnblogs.com/xiaolincoding/p/12732052.html)
 * [http2 http1.1 网络加载对比](https://http2.akamai.com/demo)
 * [HTTP中的301、302、303、307、308](https://www.cnblogs.com/amyzhu/p/11763438.html)
 * [DNS递归查询与迭代查询](https://www.cnblogs.com/qingdaofu/p/7399670.html)
