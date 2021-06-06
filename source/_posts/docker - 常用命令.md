@@ -4,7 +4,7 @@ date: 2021-02-01 15:11:10
 categories: 
 - 运维
 tags:
-- 部署
+- 部署 docker
 ---
 ## docker 命令
 

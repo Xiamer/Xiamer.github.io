@@ -276,3 +276,4 @@ foo();
 
 * [Module 语法](https://es6.ruanyifeng.com/#docs/module)
 * [JavaScript 模块的循环加载](http://www.ruanyifeng.com/blog/2015/11/circular-dependency.html)
+* [How to deal with cyclic dependencies in Node.js](https://stackoverflow.com/questions/10869276/how-to-deal-with-cyclic-dependencies-in-node-js)
