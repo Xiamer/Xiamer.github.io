@@ -95,6 +95,9 @@ docker service update --replicas 10 my-nginx
 
 # 用 scale 和 update --replicas 一样，创建5个副本
 docker service scale my-nginx=5
+
+# 更新镜像 （更新镜像，平稳发布）
+docker service update --image nginx:0.2 my-nginx
 ```
 
 移出！docker service rm
