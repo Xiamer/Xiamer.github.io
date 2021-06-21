@@ -10,8 +10,6 @@ tags:
 
 ## git cherry-pick (指定的提交（commit）应用于当前分支)
 
-http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html
-
 ```bash
 git cherry-pick [hash] // 单个
 git cherry-pick <HashA><HashB> // 多个
@@ -24,9 +22,7 @@ git cherry-pick A^..B // A到B
 git cherry-pick -n //(--no-commit) 只更新工作区和暂存区，不产生新的提交。
 ```
 
-## git  rebase (合并commit 、 合并分支或别的分支commit到当前分支)
-
-https://www.jianshu.com/p/4a8f4af4e803
+## git rebase (合并commit 、 合并分支或别的分支commit到当前分支)
 
 1. 场景：合并多个commit 为 1个commit（push之前）
 	a. git rebase -i  [startpoint]  [endpoint] 前开后闭
@@ -38,22 +34,27 @@ https://www.jianshu.com/p/4a8f4af4e803
   
 ## git reset (回退到某个commit)
 
- https://blog.csdn.net/yxlshk/article/details/79944535
-
-1. 场景：<font>回退到某个commit</font>
+1. 场景：<font color=red>回退到某个commit</font>
 	a. git reset --hard [hash | HEAD^]  
-	b. git push -f // <font>需要加参数 -f 强推</font>， 远程hash后的commit将会消失
+	b. git push -f // <font color=red>需要加参数 -f 强推</font>， 远程hash后的commit将会消失
 2. 常用参数 https://www.jianshu.com/p/c2ec5f06cf1a
   a. git reset --sort [hash] 回退到hash 版本，hash版本后修改放在暂存区
   b. git reset --mixed [hash] 回退到hash版本，版本之后的所有改变都放到工作区
   c. git reset --hard [hash] 回退到hash 版本，hash版本后内容清空！！
 
 ## git revert （撤销某个commit）
-https://blog.csdn.net/yxlshk/article/details/79944535
-场景：<font>撤销某个commit</font>，但是保留了后面的版本 （会生成一个新的commit）
+
+场景：<font color=red>撤销某个commit</font>，但是保留了后面的版本 （会生成一个新的commit）
 a. git revert -n [hash]
 b. git commit -m "revert xxx"
 
 ## git log
 
 git log --pretty=oneline
+
+## 参考
+
+[git cherry-pick 参考](http://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html)
+[git rebase 参考](https://www.jianshu.com/p/4a8f4af4e803)
+[git reset 参考](https://blog.csdn.net/yxlshk/article/details/79944535)
+[git revert 参考](https://blog.csdn.net/yxlshk/article/details/79944535)
