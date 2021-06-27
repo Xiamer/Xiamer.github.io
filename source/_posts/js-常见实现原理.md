@@ -353,3 +353,44 @@ function compose (middleware) {
   }
 }
 ```
+
+## deepclone (WeakMap)
+
+```js
+function deepClone(obj, hash = new WeakMap()) {
+  if (hash.has(obj)) return obj;
+  var cobj;
+  // null
+  if (obj === null) { return obj }
+  let t = typeof obj;
+
+  // 基本类型
+  switch (t) {
+    case 'string':
+    case 'number':
+    case 'boolean':
+    case 'undefined':
+      return obj;
+  }
+
+  // 数组
+  if (Array.isArray(obj)) {
+    cobj = [];
+    obj.forEach((c, i) => { cobj.push(deepClone(obj[i])) });
+  } else {
+    cobj = {};
+    // object // symbol
+    if (Object.prototype.toString.call(obj) === "[object Object]") {
+      Object.getOwnPropertyNames(obj).concat(Object.getOwnPropertySymbols(obj)).forEach(c => {
+        hash.set(obj, obj);
+        cobj[c] = deepClone(obj[c], hash);
+      });
+    } else {
+      //内置Object
+      cobj = obj;
+    }
+  }
+  return cobj;
+}
+
+```
