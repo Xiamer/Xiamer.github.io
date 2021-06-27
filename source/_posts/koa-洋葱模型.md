@@ -173,7 +173,7 @@ fn()
 这样就实现了简易版的中间件，下面我们看下源码的实现，相差不多，加了`promise`包装和一些错误处理。
 
 
-## koa-componse 源码相关
+## koa-compose 源码相关
 
 1. `app.listen(port)` [源码地址](https://github.com/koajs/koa/blob/master/lib/application.js#L78)
 
@@ -224,7 +224,7 @@ callback() {
 ```
 
 
-4. `componse 函数` [源码地址](https://github.com/koajs/compose/blob/master/index.js)
+4. `compose 函数` [源码地址](https://github.com/koajs/compose/blob/master/index.js)
 
 ```js
 function compose (middleware) {
