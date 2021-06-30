@@ -168,11 +168,9 @@ Node.js也是单线程的Event Loop，但是它的运行机制不同于浏览器
 除了setTimeout和setInterval这两个方法，Node.js还提供了另外两个与"任务队列"有关的方法: **process.nextTick**和**setImmediate**。process.nextTick方法可以在当前"执行栈"的尾部----下一次Event Loop（主线程读取"任务队列"）之前----触发回调函数。也就是说，它指定的任务总是发生在所有异步任务之前。setImmediate方法则是在当前"任务队列"的尾部添加事件，也就是说，它指定的任务总是在下一次Event Loop时执行。
 
 
-### Node.js Event Loop原理
+### Node Event Loop的事件处理机制
 
 node.js的特点是事件驱动，非阻塞单线程。当应用程序需要I/O操作的时候，线程并不会阻塞，而是把I/O操作交给底层库（LIBUV）。此时node线程会去处理其他任务，当底层库处理完I/O操作后，会将主动权交还给Node线程，所以Event Loop的用处是调度线程，例如：当底层库处理I/O操作后调度Node线程处理后续工作，所以虽然node是单线程，但是底层库处理操作依然是多线程
-
-### Node Event Loop的事件处理机制
 
 ```
    ┌───────────────────────────┐
@@ -196,14 +194,47 @@ node.js的特点是事件驱动，非阻塞单线程。当应用程序需要I/O�
 ```
 
    * timers: 这个阶段执行setTimeout()和setInterval()设定的回调。
-   * pending callbacks: 上一轮循环中有少数的 I/O callback 会被延迟到这一轮的这一阶段执行。
+   * pending callbacks: 执行推迟到下一个循环迭代的 I/O 回调。此阶段执行某些系统操作的回调，例如 TCP 错误。
    * idle, prepare: 仅内部使用。
-   * poll: 执行 I/O callback，在适当的条件下会阻塞在这个阶段
+   * poll: 取出新完成的 I/O 事件；执行与 I/O 相关的回调（除了close，timer 和 setImmediate 之外，几乎所有这些回调） 适当时，node 将在此处阻塞。
    * check: 执行setImmediate()设定的回调。
    * close callbacks: 执行比如socket.on('close', ...)的回调。
 
+### Node.js Event Loop原理
+
+<font color=red>process.nextTick</font> 在event loop阶段切换时执行，<font color=red>当前阶段结束后，下个阶段前</font>。
+microtasks微任务在 各个阶段 process.nextTick 之后执行。
+
+setImmediate()设计用于在当前poll阶段完成后check阶段执行脚本 。
+setTimeout() 安排在经过最小（ms）后运行的脚本，在timers阶段执行。
+
+<font color=red轮询 poll 阶段</font>
+
+该poll阶段有两个主要功能：
+
+1. 执行I/O回调。
+2. 处理轮询队列中的事件。
+
+当事件循环进入 轮询 阶段且 没有被调度的计时器时 ，将发生以下两种情况之一：
+
+* 如果 <font color=red>轮询</font> 队列 <font color=red>不是空的</font> ，事件循环将循环访问回调队列并同步执行它们，直到队列已用尽，或者达到了与系统相关的硬性限制。
+* 如果 <font color=red>轮询</font> 队列 <font color=red>是空的</font> ，还有两件事发生:
+    * 如果脚本被 setImmediate() 调度，则事件循环将结束 轮询 阶段，并继续 检查check 阶段以执行那些被调度的脚本。
+
+    * 如果脚本 <font color=red>未被</font> setImmediate()调度，则事件循环将<font color=red>等待</font>(一直等待)回调被添加到队列中，然后立即执行
+
+一旦 <font color=red>轮询</font> 队列为空，事件循环将检查 _已达到时间阈值的计时器_。如果一个或多个计时器已准备就绪，则事件循环将绕回计时器timer阶段以执行这些计时器的回调。
+
+完整如下：
+
+![](/images/event-deep/5.png)
+![](/images/event-deep/6.png)
+
+
 
 ## 参考链接
+* [node js 事件队列](https://learnku.com/articles/38802)
+* [node js 事件队列视频](https://www.bilibili.com/video/BV11q4y1f7jv?p=8&spm_id_from=pageDriver)
 * [JavaScript 运行机制详解：再谈Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 * [JavaScript 异步、栈、事件循环、任务队列](https://segmentfault.com/a/1190000011198232)
 * [通过microtasks和macrotasks看JavaScript异步任务执行顺序](https://tuobaye.com/2017/10/24/%E9%80%9A%E8%BF%87microtasks%E5%92%8Cmacrotasks%E7%9C%8BJavaScript%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F/)
