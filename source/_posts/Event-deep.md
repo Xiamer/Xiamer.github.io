@@ -233,6 +233,7 @@ setTimeout() 安排在经过最小（ms）后运行的脚本，在timers阶段�
 
 
 ## 参考链接
+* [浏览器事件循环 题](https://www.cnblogs.com/jiangyuzhen/p/11064408.html)
 * [node js 事件队列](https://learnku.com/articles/38802)
 * [node js 事件队列视频](https://www.bilibili.com/video/BV11q4y1f7jv?p=8&spm_id_from=pageDriver)
 * [JavaScript 运行机制详解：再谈Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)

@@ -70,7 +70,7 @@ Function.prototype.bind = function (context, ...arg) {
 function instance_of(L, R) {
   let l = L.__proto__
   let r = R.prototype
-  while(l) {
+  while(true) {
     if (l === r) return true
     if (l === null) return false
     l = l.__proto__
@@ -163,13 +163,17 @@ const debounce = (fn, delay = 300) => {
 [参考](https://juejin.cn/post/6844904013096288269#heading-22)
 
 ```js
-function Father(...arr) {
+function Parent(name) {
+  this.name = name
 }
-Father.prototype.someFn = function() {
+Parent.prototype.say = function() {
+  console.log('parent say', this.name)
 }
-function Son() {
-    Father.call(this, 'xxxx');
+
+function Sub() {
+  Parent.call(this, 'li')
 }
+
 function inhertPro(son, father){
     // 原型式继承
     var fatherPrototype = Object.create(father.prototype);
@@ -181,14 +185,15 @@ function inhertPro(son, father){
     son.prototype.constructor = son; 
 }
 
-inhertPro(Son, Father);
-var sonInstance = new Son();
+inhertPro(Sub, Parent);
+Sub.prototype.write = function() {}
+var sonInstance = new Sub();
 ```
 
 ## map 实现
 
 ```js
-Function.prototype.map = function (fn, context) {
+Array.prototype.map = function (fn, context) {
   let self = this;
   let result = [];
   for (let i = 0; i < self.length; i++) {
@@ -200,7 +205,7 @@ Function.prototype.map = function (fn, context) {
 
 ## reduce 实现
 ```js
-Function.prototype.reduce = function (fn, initialVal) {
+Array.prototype.reduce = function (fn, initialVal) {
   let previous = initialVal; k = 0;
   if (initialVal === undefined) {
     previous = this[0];
@@ -392,5 +397,245 @@ function deepClone(obj, hash = new WeakMap()) {
   }
   return cobj;
 }
+
+```
+
+## req limit
+
+```js
+// https://github.com/fedono/fe-questions/issues/20
+function asyncLimit(requests, limit) {
+  let requestLimits = requests.splice(0, limit).map((request, i) => {
+    // 在 map 里面，每个请求里面的 then 都要返回一个å i
+    // 用来在 race 执行完成之后，添加过来的知道如何替换掉已经执行过的请求
+    return request().then(() => i);
+  });
+
+  let p = Promise.race(requestLimits);
+  for (let i = 0; i < requests.length; i++) {
+    // 主要是没有明白这里的 p = p.then 是什么意思？
+    // 每次都需要更新一次 p，要不然每次都是第一次的 Promise.race(requestLimits) ？
+    // 如果这里只是 p.then 而不是 p = p.then 那么 requestLimits中第一次会输出一次结果，然后 requests 中的结果会一次性全输出，总共输出两次
+    // 每次都要 p = p.then 应该是每次都要更新p，因为每次在 race 中都有一个函数执行完成了，所以需要更新一下
+    // 0 1 2 , 0 1 2 , 0, 1 2 ->
+    // 3 1 2, 3 1 2, 3 1 2 ->
+    // 3 1 4, 3 1 4, 3 1 4 ->
+    p = p.then(index => {
+      // p.then(index => {
+      // 一定要在这里加上 .then(() => index) 这样才能把 index 传给下一个函数
+      requestLimits[index] = requests[i]().then(() => index);
+      // 每次 race 中的函数执行完成后，都是返回 index，所以这里要 return Promise.race，来让下一个 then 中接受的参数是 index
+      return Promise.race(requestLimits);
+    });
+  }
+}
+```
+
+
+## Promise 简单实现
+
+[https://zhuanlan.zhihu.com/p/21834559](史上最易读懂的 Promise/A+ 完全实现)
+
+```js
+
+function Promise(executor) {
+  var self = this
+  self.status = 'pending' // Promise当前的状态
+  self.data = undefined  // Promise的值
+  self.onResolvedCallback = [] // Promise resolve时的回调函数集，因为在Promise结束之前有可能有多个回调添加到它上面
+  self.onRejectedCallback = [] // Promise reject时的回调函数集，因为在Promise结束之前有可能有多个回调添加到它上面
+
+  function resolve(value) {
+    if (self.status === 'pending') {
+      setTimeout(()=>{
+        self.status = 'resolved'
+        self.data = value
+        for(var i = 0; i < self.onResolvedCallback.length; i++) {
+          self.onResolvedCallback[i](value)
+        }
+      })
+    }
+  }
+
+  function reject(reason) {
+    if (self.status === 'pending') {
+      setTimeout(()=>{
+        self.status = 'rejected'
+        self.data = reason
+        for(var i = 0; i < self.onRejectedCallback.length; i++) {
+          self.onRejectedCallback[i](reason)
+        }
+      })
+    }
+  }
+
+  try { // 考虑到执行executor的过程中有可能出错，所以我们用try/catch块给包起来，并且在出错后以catch到的值reject掉这个Promise
+    executor(resolve, reject) // 执行executor
+  } catch(e) {
+    reject(e)
+  }
+}
+
+Promise.prototype.then = function(onResolved, onRejected) {
+  var self = this
+  var promise2
+
+  // 根据标准，如果then的参数不是function，则我们需要忽略它，此处以如下方式处理
+  onResolved = typeof onResolved === 'function' ? onResolved : function(value) {return value}
+  onRejected = typeof onRejected === 'function' ? onRejected : function(reason) {throw reason}
+
+  if (self.status === 'resolved') {
+    // 如果promise1(此处即为this/self)的状态已经确定并且是resolved，我们调用onResolved
+    // 因为考虑到有可能throw，所以我们将其包在try/catch块里
+    return promise2 = new Promise(function(resolve, reject) {
+      try {
+        var x = onResolved(self.data)
+        if (x instanceof Promise) { // 如果onResolved的返回值是一个Promise对象，直接取它的结果做为promise2的结果
+          x.then(resolve, reject)
+        }
+        resolve(x) // 否则，以它的返回值做为promise2的结果
+      } catch (e) {
+        reject(e) // 如果出错，以捕获到的错误做为promise2的结果
+      }
+    })
+  }
+
+  // 此处与前一个if块的逻辑几乎相同，区别在于所调用的是onRejected函数，就不再做过多解释
+  if (self.status === 'rejected') {
+    return promise2 = new Promise(function(resolve, reject) {
+      try {
+        var x = onRejected(self.data)
+        if (x instanceof Promise) {
+          x.then(resolve, reject)
+        }
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
+  if (self.status === 'pending') {
+  // 如果当前的Promise还处于pending状态，我们并不能确定调用onResolved还是onRejected，
+  // 只能等到Promise的状态确定后，才能确实如何处理。
+  // 所以我们需要把我们的**两种情况**的处理逻辑做为callback放入promise1(此处即this/self)的回调数组里
+  // 逻辑本身跟第一个if块内的几乎一致，此处不做过多解释
+    return promise2 = new Promise(function(resolve, reject) {
+      self.onResolvedCallback.push(function(value) {
+        try {
+          var x = onResolved(self.data)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          }
+        } catch (e) {
+          reject(e)
+        }
+      })
+
+      self.onRejectedCallback.push(function(reason) {
+        try {
+          var x = onRejected(self.data)
+          if (x instanceof Promise) {
+            x.then(resolve, reject)
+          }
+        } catch (e) {
+          reject(e)
+        }
+      })
+    })
+  }
+}
+
+
+Promise.prototype.all = function (arr) {
+  return new Promise(function (resolve, reject) {
+    let result = [];
+    let count = 0;
+    for (const i = 0; i < arr.length; i++) {
+      Promise.resolve(arr[i]).then(res => {
+        count++;
+        result[i] = res;
+        if (arr.length === count) {
+          resolve(result);
+        }
+      }).catch(err => {
+        reject(err);
+      })
+
+    }
+  })
+}
+
+Promise.prototype.resolve = function (value) {
+  return new Promise(function (resolve, reject) {
+    resolve(value);
+  })
+}
+
+Promise.prototype.reject = function (reason) {
+  return new Promise(function (resolve, reject) {
+    reject(reason);
+  })
+}
+Promise.prototype.any = function(iterators) {
+  const promises = Array.from(iterators);
+  const num = promises.length;
+  const rejectedList = new Array(num);
+  let rejectedNum = 0;
+
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then(value => resolve(value))
+        .catch(error => {
+          rejectedList[index] = error;
+          if (++rejectedNum === num) {
+            reject(rejectedList);
+          }
+        });
+    });
+  });
+};
+
+
+
+const formatSettledResult = (success, value) =>
+  success
+    ? { status: "fulfilled", value }
+    : { status: "rejected", reason: value };
+
+Promise.prototype.allSettled = function(iterators) {
+  const promises = Array.from(iterators);
+  const num = promises.length;
+  const settledList = new Array(num);
+  let settledNum = 0;
+
+  return new Promise(resolve => {
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then(value => {
+          settledList[index] = formatSettledResult(true, value);
+          if (++settledNum === num) {
+            resolve(settledList);
+          }
+        })
+        .catch(error => {
+          settledList[index] = formatSettledResult(false, error);
+          if (++settledNum === num) {
+            resolve(settledList);
+          }
+        });
+    });
+  });
+};
+
+Promise.prototype.finally = function(cb) {
+  return this.then(
+    value => Promise.resolve(cb()).then(() => value),
+    error =>
+      Promise.resolve(cb()).then(() => {
+        throw error;
+      })
+  );
+};
 
 ```
